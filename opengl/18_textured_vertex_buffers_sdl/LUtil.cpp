@@ -76,7 +76,7 @@ bool initGL()
 
 bool loadMedia()
 {
-    if( !gVBOTexture.loadTextureFromFile( "18_textured_vertex_buffers/opengl.png" ) )
+    if( !gVBOTexture.loadTextureFromFile( "opengl.png" ) )
     {
         printf( "Unable to load OpenGL texture!\n" );
         return false;
@@ -100,7 +100,4 @@ void render()
 
     //Render textured quad using VBOs
     gVBOTexture.render( ( SCREEN_WIDTH - gVBOTexture.imageWidth() ) / 2.f, ( SCREEN_HEIGHT - gVBOTexture.imageHeight() ) / 2.f );
-
-    //Update screen
-    glutSwapBuffers();
 }
