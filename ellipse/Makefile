@@ -12,7 +12,7 @@ COMPILER_FLAGS = -w
 LINKER_FLAGS = -lGL -lGLU -lglut -lGLEW -lIL -lILU
 
 #OBJ_NAME specifies the name of our executable
-OBJ_NAME = 17_vertex_buffer_objects
+OBJ_NAME = drawEllipse
 
 #This is the target that compiles our executable
 all : $(OBJS)
