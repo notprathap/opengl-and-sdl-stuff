@@ -7,6 +7,7 @@ and may not be redistributed without written permission.*/
 
 #include "LOpenGL.h"
 #include <stdio.h>
+#include "LVertexPos2D.h"
 
 //Screen constants
 const int SCREEN_WIDTH = 640;
@@ -47,7 +48,7 @@ Side Effects:
  -None
 */
 
-void createVBO();
+void createVBO(LVertexPos2D* gPointVertices);
 /*
 Pre Condition:
  -Vertices of ellipse loaded in the vertices array

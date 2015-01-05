@@ -5,9 +5,9 @@ and may not be redistributed without written permission.*/
 #include "LUtil.h"
 #include <IL/il.h>
 #include <IL/ilu.h>
-#include "LVertexPos2D.h"
 #include "Ellipse.h"
 #include <vector>
+#include <iostream>
 
 //Quad vertices
 LVertexPos2D gQuadVertices[ 4 ];
@@ -91,36 +91,45 @@ bool initGL()
 
 bool loadVertices()
 {
-    //Set quad verticies
-    gQuadVertices[ 0 ].x = SCREEN_WIDTH * 1.f / 4.f;
-    gQuadVertices[ 0 ].y = SCREEN_HEIGHT * 1.f / 4.f;
+    // initialize ellipse
+    initEllipse(10,5);
 
-    gQuadVertices[ 1 ].x = SCREEN_WIDTH * 3.f / 4.f;
-    gQuadVertices[ 1 ].y = SCREEN_HEIGHT * 1.f / 4.f;
+    // load first set of points
+    points = getFirstSetOfPoints();
 
-    gQuadVertices[ 2 ].x = SCREEN_WIDTH * 3.f / 4.f;
-    gQuadVertices[ 2 ].y = SCREEN_HEIGHT * 3.f / 4.f;
+    // load second set of points
+    std::vector<LVertexPos2D> secondSetOfpoints;
+    secondSetOfpoints = getSecondSetOfPoints();
 
-    gQuadVertices[ 3 ].x = SCREEN_WIDTH * 1.f / 4.f;
-    gQuadVertices[ 3 ].y = SCREEN_HEIGHT * 3.f / 4.f;
+    // merge the points
+    points.insert(points.end(), secondSetOfpoints.begin(), secondSetOfpoints.end());
 
-    //Set rendering indices
-    gIndices[ 0 ] = 0;
-    gIndices[ 1 ] = 1;
-    gIndices[ 2 ] = 2;
-    gIndices[ 3 ] = 3;
+    // copy the points to an array, so segmentation fault can be avoided in 
+    // glbufferdata call - for some reason, it won't accept the address of the 
+    // first element in the vector - hence this arrangement.
+    LVertexPos2D gPointVertices[ points.size() ];
 
-    createVBO();
+    // set indices
+    for (int i = 0; i < points.size(); i++){
+        // set vertices
+        gPointVertices[i].x = points[i].x;
+        gPointVertices[i].y = points[i].y;
+
+        gIndices[ i ] = i;
+    }
+
+    // create vbo and ibo
+    createVBO(gPointVertices);
     createIBO();
     return true;
 }
 
-void createVBO()
+void createVBO(LVertexPos2D* gPointVertices)
 {
     //Create VBO
     glGenBuffers( 1, &gVertexBuffer );
     glBindBuffer( GL_ARRAY_BUFFER, gVertexBuffer );
-    glBufferData( GL_ARRAY_BUFFER, 4 * sizeof(LVertexPos2D), gQuadVertices, GL_STATIC_DRAW );
+    glBufferData( GL_ARRAY_BUFFER, points.size() * sizeof(LVertexPos2D), gPointVertices, GL_STATIC_DRAW );
 }
 
 void createIBO()
@@ -128,7 +137,7 @@ void createIBO()
     //Create IBO
     glGenBuffers( 1, &gIndexBuffer );
     glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, gIndexBuffer );
-    glBufferData( GL_ELEMENT_ARRAY_BUFFER, 4 * sizeof(GLuint), gIndices, GL_STATIC_DRAW );
+    glBufferData( GL_ELEMENT_ARRAY_BUFFER, points.size() * sizeof(GLuint), gIndices, GL_STATIC_DRAW );
 }
 
 void update()
@@ -150,7 +159,9 @@ void render()
 
         //Draw quad using vertex data and index data
 		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, gIndexBuffer );
-        glDrawElements( GL_QUADS, 4, GL_UNSIGNED_INT, NULL );
+
+        // plot the points
+        glDrawElements( GL_POINTS, points.size(), GL_UNSIGNED_INT, NULL );
 
     //Disable vertex arrays
     glDisableClientState( GL_VERTEX_ARRAY );
