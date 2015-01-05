@@ -1,5 +1,15 @@
 #include "Ellipse.h"
 
+long x;
+long y;
+long xRadius;
+long yRadius;
+long xChange;
+long yChange;
+long ellipseError;
+long stoppingX;
+long stoppingY;
+
 long twoASquare()
 {
     return 2 * xRadius * xRadius;
@@ -10,7 +20,7 @@ long twoBSquare()
     return 2 * yRadius * yRadius;
 }
 
-void init(long a, long b)
+void initEllipse(long a, long b)
 {
     xRadius = a;
     yRadius = b;

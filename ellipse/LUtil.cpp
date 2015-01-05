@@ -6,6 +6,7 @@ and may not be redistributed without written permission.*/
 #include <IL/il.h>
 #include <IL/ilu.h>
 #include "LVertexPos2D.h"
+#include "Ellipse.h"
 #include <vector>
 
 //Quad vertices

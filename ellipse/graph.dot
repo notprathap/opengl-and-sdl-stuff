@@ -1,0 +1,25 @@
+digraph "source tree" {
+    overlap=scale;
+    size="8,10";
+    ratio="fill";
+    fontsize="16";
+    fontname="Helvetica";
+	clusterrank="local";
+	"LOpenGL.h" -> "gl.h"
+	"LOpenGL.h" -> "glew.h"
+	"LUtil.cpp" -> "il.h"
+	"LOpenGL.h" -> "freeglut.h"
+	"LUtil.cpp" -> "LUtil.h"
+	"LUtil.h" -> "stdio.h"
+	"main.cpp" -> "LUtil.h"
+	"LOpenGL.h" -> "stdio.h"
+	"LVertexPos2D.h" -> "LOpenGL.h"
+	"LUtil.cpp" -> "LVertexPos2D.h"
+	"LUtil.h" -> "LOpenGL.h"
+	"LUtil.cpp" -> "ilu.h"
+	"Ellipse.cpp" -> "Ellipse.h"
+	"Ellipse.h" -> "LVertexPos2D.h"
+	"LUtil.cpp" -> "Ellipse.h"
+	"LOpenGL.h" -> "glu.h"
+}
+
