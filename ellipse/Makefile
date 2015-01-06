@@ -6,10 +6,10 @@ CC = g++
 
 #COMPILER_FLAGS specifies the additional compilation options we're using
 # -w suppresses all warnings
-COMPILER_FLAGS = -w -g
+COMPILER_FLAGS = -w
 
 #LINKER_FLAGS specifies the libraries we're linking against
-LINKER_FLAGS = -lGL -lGLU -lglut -lGLEW -lIL -lILU
+LINKER_FLAGS = -lGL -lGLU -lglut -lGLEW
 
 #OBJ_NAME specifies the name of our executable
 OBJ_NAME = drawEllipse

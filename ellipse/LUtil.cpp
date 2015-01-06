@@ -3,8 +3,6 @@ and may not be redistributed without written permission.*/
 //Version: 017
 
 #include "LUtil.h"
-#include <IL/il.h>
-#include <IL/ilu.h>
 #include "Ellipse.h"
 #include <vector>
 #include <iostream>
@@ -68,19 +66,6 @@ bool initGL()
         return false;
     }
 
-    //Initialize DevIL and DevILU
-    ilInit();
-    iluInit();
-    ilClearColour( 255, 255, 255, 000 );
-
-    //Check for error
-    ILenum ilError = ilGetError();
-    if( ilError != IL_NO_ERROR )
-    {
-        printf( "Error initializing DevIL! %s\n", iluErrorString( ilError ) );
-        return false;
-    }
-
     return true;
 }
 
@@ -88,8 +73,7 @@ bool loadVertices()
 {
     // initialize ellipse
     Ellipse::Ellipse ellipse(100,50, SCREEN_WIDTH * 1.f / 2.f, SCREEN_HEIGHT * 1.f / 2.f);
-    //initEllipse(100,50, SCREEN_WIDTH * 1.f / 2.f, SCREEN_HEIGHT * 1.f / 2.f);
-
+    
     // load first set of points
     points = ellipse.getFirstSetOfPoints();
 
