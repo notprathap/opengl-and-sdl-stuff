@@ -5,7 +5,6 @@ and may not be redistributed without written permission.*/
 #include "LUtil.h"
 #include "Ellipse.h"
 #include <vector>
-#include <iostream>
 #include "LVertexPos2D.h"
 
 //Vertex buffer
@@ -49,14 +48,6 @@ bool initGL()
 
     //Initialize clear color
     glClearColor( 0.f, 0.f, 0.f, 1.f );
-
-    //Enable texturing
-    glEnable( GL_TEXTURE_2D );
-
-    //Set blending
-    glEnable( GL_BLEND );
-    glDisable( GL_DEPTH_TEST );
-    glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
 
     //Check for error
     GLenum error = glGetError();
