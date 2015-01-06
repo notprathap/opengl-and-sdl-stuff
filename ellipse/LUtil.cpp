@@ -93,7 +93,7 @@ bool initGL()
 bool loadVertices()
 {
     // initialize ellipse
-    initEllipse(10,5);
+    initEllipse(100,50, SCREEN_WIDTH * 1.f / 2.f, SCREEN_HEIGHT * 1.f / 2.f);
 
     // load first set of points
     points = getFirstSetOfPoints();

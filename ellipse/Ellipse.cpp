@@ -2,6 +2,8 @@
 
 long x;
 long y;
+long cx;
+long cy;
 long xRadius;
 long yRadius;
 long xChange;
@@ -20,10 +22,12 @@ long twoBSquare()
     return 2 * yRadius * yRadius;
 }
 
-void initEllipse(long a, long b)
+void initEllipse(long a, long b, long xOffset, long yOffset)
 {
     xRadius = a;
     yRadius = b;
+    cx = xOffset;
+    cy = yOffset;
 }
 
 std::vector<LVertexPos2D> getFirstSetOfPoints()
@@ -124,25 +128,25 @@ void fillUpPoints(std::vector<LVertexPos2D>& points, long x, long y)
 {
     // point in quadrant 1
     LVertexPos2D pq1;
-    pq1.x = x;
-    pq1.y = y;
+    pq1.x = cx + x;
+    pq1.y = cy + y;
     points.push_back(pq1);
 
     // point in quadrant 2
     LVertexPos2D pq2;
-    pq2.x = -x;
-    pq2.y = y;
+    pq2.x = cx - x;
+    pq2.y = cy + y;
     points.push_back(pq2);
 
     // point in quadrant 3
     LVertexPos2D pq3;
-    pq3.x = -x;
-    pq3.y = -y;
+    pq3.x = cx - x;
+    pq3.y = cy - y;
     points.push_back(pq3);
 
     // point in quadrant 4
     LVertexPos2D pq4;
-    pq4.x = x;
-    pq4.y = -y;
+    pq4.x = cx + x;
+    pq4.y = cy - y;
     points.push_back(pq4);
 }
