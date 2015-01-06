@@ -8,6 +8,7 @@ and may not be redistributed without written permission.*/
 #include "Ellipse.h"
 #include <vector>
 #include <iostream>
+#include "LVertexPos2D.h"
 
 //Quad vertices
 LVertexPos2D gQuadVertices[ 4 ];
@@ -104,32 +105,23 @@ bool loadVertices()
     // merge the points
     points.insert(points.end(), secondSetOfpoints.begin(), secondSetOfpoints.end());
 
-    // copy the points to an array, so segmentation fault can be avoided in 
-    // glbufferdata call - for some reason, it won't accept the address of the 
-    // first element in the vector - hence this arrangement.
-    LVertexPos2D gPointVertices[ points.size() ];
-
     // set indices
     for (int i = 0; i < points.size(); i++){
-        // set vertices
-        gPointVertices[i].x = points[i].x;
-        gPointVertices[i].y = points[i].y;
-
-        gIndices[ i ] = i;
+        indices.push_back(i);
     }
 
     // create vbo and ibo
-    createVBO(gPointVertices);
+    createVBO();
     createIBO();
     return true;
 }
 
-void createVBO(LVertexPos2D* gPointVertices)
+void createVBO()
 {
     //Create VBO
     glGenBuffers( 1, &gVertexBuffer );
     glBindBuffer( GL_ARRAY_BUFFER, gVertexBuffer );
-    glBufferData( GL_ARRAY_BUFFER, points.size() * sizeof(LVertexPos2D), gPointVertices, GL_STATIC_DRAW );
+    glBufferData( GL_ARRAY_BUFFER, points.size() * sizeof(LVertexPos2D), &points[0], GL_STATIC_DRAW );
 }
 
 void createIBO()
@@ -137,7 +129,7 @@ void createIBO()
     //Create IBO
     glGenBuffers( 1, &gIndexBuffer );
     glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, gIndexBuffer );
-    glBufferData( GL_ELEMENT_ARRAY_BUFFER, points.size() * sizeof(GLuint), gIndices, GL_STATIC_DRAW );
+    glBufferData( GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), &indices[0], GL_STATIC_DRAW );
 }
 
 void update()
