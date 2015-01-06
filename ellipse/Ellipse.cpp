@@ -1,152 +1,148 @@
 #include "Ellipse.h"
 
-long x;
-long y;
-long cx;
-long cy;
-long xRadius;
-long yRadius;
-long xChange;
-long yChange;
-long ellipseError;
-long stoppingX;
-long stoppingY;
-
-long twoASquare()
-{
-    return 2 * xRadius * xRadius;
-}
-
-long twoBSquare()
-{
-    return 2 * yRadius * yRadius;
-}
-
-void initEllipse(long a, long b, long xOffset, long yOffset)
-{
-    xRadius = a;
-    yRadius = b;
-    cx = xOffset;
-    cy = yOffset;
-}
-
-std::vector<LVertexPos2D> getFirstSetOfPoints()
-{
-    x = xRadius;
-    y = 0;
-    xChange = yRadius * yRadius * (1 - 2 * xRadius);
-    yChange = xRadius * xRadius;
-    ellipseError = 0;
-    stoppingX = twoBSquare() * xRadius;
-    stoppingY = 0;
-
-    std::vector<LVertexPos2D> points;
-
-    while (stoppingX >= stoppingY){
-        // fill up points
-        fillUpPoints(points, x, y);
-
-        // increment y
-        y++;
-
-        // increment stoppingY
-        stoppingY += twoASquare();
-
-        // increment ellipseError
-        ellipseError += yChange;
-
-        // increment yChange
-        yChange += twoASquare();
-
-        if ((2 * ellipseError + xChange) > 0){
-            // decrement x
-            x--;
-
-            // decrement stoppingX
-            stoppingX -= twoBSquare();
-
-            // increment ellipseError
-            ellipseError += xChange;
-
-            // increment xChange
-            xChange += twoBSquare();
-        }
+namespace Ellipse{
+    long Ellipse::twoASquare()
+    {
+        return 2 * xRadius * xRadius;
     }
 
-    return points;
+    long Ellipse::twoBSquare()
+    {
+        return 2 * yRadius * yRadius;
+    }
 
-}
+    Ellipse::Ellipse(long a, long b, long xOffset, long yOffset)
+    {
+        xRadius = a;
+        yRadius = b;
+        cx = xOffset;
+        cy = yOffset;
+    }
 
-std::vector<LVertexPos2D> getSecondSetOfPoints()
-{
-    x = 0;
-    y = yRadius;
-    xChange = yRadius * yRadius;
-    yChange = xRadius * xRadius * (1 - 2 * yRadius);
-    ellipseError = 0;
-    stoppingX = 0;
-    stoppingY = twoASquare() * yRadius;
+    Ellipse::~Ellipse()
+    {
 
-    std::vector<LVertexPos2D> points;
+    }
 
-    while (stoppingX <= stoppingY){
-        // fill up points
-        fillUpPoints(points, x, y);
+    std::vector<LVertexPos2D> Ellipse::getFirstSetOfPoints()
+    {
+        x = xRadius;
+        y = 0;
+        xChange = yRadius * yRadius * (1 - 2 * xRadius);
+        yChange = xRadius * xRadius;
+        ellipseError = 0;
+        stoppingX = twoBSquare() * xRadius;
+        stoppingY = 0;
 
-        // increment x
-        x++;
+        std::vector<LVertexPos2D> points;
 
-        // increment stoppingX
-        stoppingX += twoBSquare();
+        while (stoppingX >= stoppingY){
+            // fill up points
+            fillUpPoints(points, x, y);
 
-        // increment ellipseError
-        ellipseError += xChange;
+            // increment y
+            y++;
 
-        // increment xChange
-        xChange += twoBSquare();
-
-        if ((2 * ellipseError + yChange) > 0){
-            // decrement y
-            y--;
-
-            // decrement stoppingY
-            stoppingY -= twoASquare();
+            // increment stoppingY
+            stoppingY += twoASquare();
 
             // increment ellipseError
             ellipseError += yChange;
 
             // increment yChange
             yChange += twoASquare();
+
+            if ((2 * ellipseError + xChange) > 0){
+                // decrement x
+                x--;
+
+                // decrement stoppingX
+                stoppingX -= twoBSquare();
+
+                // increment ellipseError
+                ellipseError += xChange;
+
+                // increment xChange
+                xChange += twoBSquare();
+            }
         }
+
+        return points;
+
     }
 
-    return points;
+    std::vector<LVertexPos2D> Ellipse::getSecondSetOfPoints()
+    {
+        x = 0;
+        y = yRadius;
+        xChange = yRadius * yRadius;
+        yChange = xRadius * xRadius * (1 - 2 * yRadius);
+        ellipseError = 0;
+        stoppingX = 0;
+        stoppingY = twoASquare() * yRadius;
 
-}
+        std::vector<LVertexPos2D> points;
 
-void fillUpPoints(std::vector<LVertexPos2D>& points, long x, long y)
-{
-    // point in quadrant 1
-    LVertexPos2D pq1;
-    pq1.x = cx + x;
-    pq1.y = cy + y;
-    points.push_back(pq1);
+        while (stoppingX <= stoppingY){
+            // fill up points
+            fillUpPoints(points, x, y);
 
-    // point in quadrant 2
-    LVertexPos2D pq2;
-    pq2.x = cx - x;
-    pq2.y = cy + y;
-    points.push_back(pq2);
+            // increment x
+            x++;
 
-    // point in quadrant 3
-    LVertexPos2D pq3;
-    pq3.x = cx - x;
-    pq3.y = cy - y;
-    points.push_back(pq3);
+            // increment stoppingX
+            stoppingX += twoBSquare();
 
-    // point in quadrant 4
-    LVertexPos2D pq4;
-    pq4.x = cx + x;
-    pq4.y = cy - y;
-    points.push_back(pq4);
+            // increment ellipseError
+            ellipseError += xChange;
+
+            // increment xChange
+            xChange += twoBSquare();
+
+            if ((2 * ellipseError + yChange) > 0){
+                // decrement y
+                y--;
+
+                // decrement stoppingY
+                stoppingY -= twoASquare();
+
+                // increment ellipseError
+                ellipseError += yChange;
+
+                // increment yChange
+                yChange += twoASquare();
+            }
+        }
+
+        return points;
+
+    }
+
+    void Ellipse::fillUpPoints(std::vector<LVertexPos2D>& points, long x, long y)
+    {
+        // point in quadrant 1
+        LVertexPos2D pq1;
+        pq1.x = cx + x;
+        pq1.y = cy + y;
+        points.push_back(pq1);
+
+        // point in quadrant 2
+        LVertexPos2D pq2;
+        pq2.x = cx - x;
+        pq2.y = cy + y;
+        points.push_back(pq2);
+
+        // point in quadrant 3
+        LVertexPos2D pq3;
+        pq3.x = cx - x;
+        pq3.y = cy - y;
+        points.push_back(pq3);
+
+        // point in quadrant 4
+        LVertexPos2D pq4;
+        pq4.x = cx + x;
+        pq4.y = cy - y;
+        points.push_back(pq4);
+    }
+
 }

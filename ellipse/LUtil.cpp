@@ -10,12 +10,6 @@ and may not be redistributed without written permission.*/
 #include <iostream>
 #include "LVertexPos2D.h"
 
-//Quad vertices
-LVertexPos2D gQuadVertices[ 4 ];
-
-//Vertex Indices
-GLuint gIndices[ 4 ];
-
 //Vertex buffer
 GLuint gVertexBuffer = 0;
 
@@ -93,14 +87,15 @@ bool initGL()
 bool loadVertices()
 {
     // initialize ellipse
-    initEllipse(100,50, SCREEN_WIDTH * 1.f / 2.f, SCREEN_HEIGHT * 1.f / 2.f);
+    Ellipse::Ellipse ellipse(100,50, SCREEN_WIDTH * 1.f / 2.f, SCREEN_HEIGHT * 1.f / 2.f);
+    //initEllipse(100,50, SCREEN_WIDTH * 1.f / 2.f, SCREEN_HEIGHT * 1.f / 2.f);
 
     // load first set of points
-    points = getFirstSetOfPoints();
+    points = ellipse.getFirstSetOfPoints();
 
     // load second set of points
     std::vector<LVertexPos2D> secondSetOfpoints;
-    secondSetOfpoints = getSecondSetOfPoints();
+    secondSetOfpoints = ellipse.getSecondSetOfPoints();
 
     // merge the points
     points.insert(points.end(), secondSetOfpoints.begin(), secondSetOfpoints.end());
@@ -149,7 +144,7 @@ void render()
 		glBindBuffer( GL_ARRAY_BUFFER, gVertexBuffer );
         glVertexPointer( 2, GL_FLOAT, 0, NULL );
 
-        //Draw quad using vertex data and index data
+        //Draw points using vertex data and index data
 		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, gIndexBuffer );
 
         // plot the points

@@ -1,21 +1,31 @@
 #include "LVertexPos2D.h"
 #include <vector>
 
-extern long x;
-extern long y;
-extern long cx;
-extern long cy;
-extern long xRadius;
-extern long yRadius;
-extern long xChange;
-extern long yChange;
-extern long ellipseError;
-extern long stoppingX;
-extern long stoppingY;
+namespace Ellipse{
+	class Ellipse
+	{
+	private:
+		long x;
+		long y;
+		long cx;
+		long cy;
+		long xRadius;
+		long yRadius;
+		long xChange;
+		long yChange;
+		long ellipseError;
+		long stoppingX;
+		long stoppingY;
 
-long twoASquare();
-long twoBSquare();
-void initEllipse(long xRadius, long yRadius, long cx, long cy); // May be the constructor
-void fillUpPoints(std::vector<LVertexPos2D>& points, long x, long y);
-std::vector<LVertexPos2D> getFirstSetOfPoints(); // When tangent line slope is > -1
-std::vector<LVertexPos2D> getSecondSetOfPoints(); // When tangent line slope is < -1
+		long twoASquare();
+		long twoBSquare();
+		void fillUpPoints(std::vector<LVertexPos2D>& points, long x, long y);
+		
+	public:
+		Ellipse(long xRadius, long yRadius, long cx, long cy);
+		~Ellipse();
+		std::vector<LVertexPos2D> getFirstSetOfPoints(); // When tangent line slope is > -1
+		std::vector<LVertexPos2D> getSecondSetOfPoints(); // When tangent line slope is < -1
+	};
+}
+
